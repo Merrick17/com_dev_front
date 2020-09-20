@@ -1,0 +1,142 @@
+import React, { Fragment, useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { UpdateUser } from "../actions/users";
+function Edituser(props) {
+  const [name, setName] = useState("");
+  const [firstName, setfirstName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
+  const [phone, setPhone] = useState("");
+  const [userId, setUserId] = useState("");
+  const state = useSelector((state) => state.rolesReducer);//pour selectionner tous les roles
+  let userList = useSelector((state) => state.userReducer);//pour selectioner un utilisateur unique 
+  const dispatch = useDispatch();
+  useEffect(() => {
+    console.log("User List", userList);
+    let id = props.match.params.id;
+    let selectedUser = userList.find((elm) => elm._id == id);
+    setName(selectedUser.name);
+    setfirstName(selectedUser.firstName);
+    setEmail(selectedUser.email);
+    setPhone(selectedUser.phone);
+    setPassword(selectedUser.password);
+    console.log("userID ", id);
+    setUserId(id);
+  }, []);
+  return (
+    <Fragment>
+      <section className="container">
+        <h1 className="large text-primary">Update User</h1>
+
+        <form className="form">
+          <div className="form-group">
+            <input
+              type="text"
+              placeholder="FirstName"
+              name="firstname"
+              required
+              value={firstName}
+              onChange={(event) => {
+                setfirstName(event.target.value);
+              }}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              placeholder="Name"
+              name="name"
+              required
+              value={name}
+              onChange={(event) => {
+                setName(event.target.value);
+              }}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              placeholder="Email"
+              name="email"
+              value={email}
+              onChange={(event) => {
+                setEmail(event.target.value);
+              }}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              //type="hidden"
+              type="text"
+              placeholder="Password"
+              name="name"
+              disabled
+            />
+          </div>
+
+          <div className="form-group">
+            <input
+              //type="hidden"
+              type="text"
+              placeholder="Phone"
+              name="name"
+              required
+              value={phone}
+              onChange={(event) => {
+                setPhone(event.target.value);
+              }}
+            />
+          </div>
+          <div>
+            <select
+              disabled
+              value={role}
+              selec
+              onChange={(event) => {
+                console.log(
+                  event.target[event.target.selectedIndex].getAttribute("value")
+                );
+                setRole(
+                  event.target[event.target.selectedIndex].getAttribute("value")
+                );
+              }}
+              id="role"
+              class="w-full mt-2 px-4 py-2 block rounded bg-gray-200 text-gray-800 border border-gray-300 focus:outline-none focus:bg-white"
+            >
+              {" "}
+              <option selected={true} value="">
+                Role{" "}
+              </option>
+              {state.map((elm) => (
+                <option value={elm._id}>{elm.role}</option>
+              ))}
+            </select>
+          </div>
+          <button
+            className="btn btn-primary my-1"
+            onClick={(event) => {
+              event.preventDefault();
+              let sendData = {
+                name: name,
+                firstName: firstName,
+                email: email,
+                password: password,
+                phone: phone,
+              };
+              console.log("hello",userId);
+              dispatch(UpdateUser(sendData, userId));
+            }}
+          >
+            Save
+          </button>
+          <a className="btn btn-light my-1" href="dashboard.html">
+            Go Back
+          </a>
+        </form>
+      </section>
+    </Fragment>
+  );
+}
+
+export default Edituser;
