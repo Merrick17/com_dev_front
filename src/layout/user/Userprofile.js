@@ -25,7 +25,15 @@ const Userprofile = () => {
 
     //setUsersList(state.userReducer);
   }, []);
-
+  const displayBtns = (elm) => {
+    if (elm.status == 0) {
+      return <p className="text-primary">En Attente</p>;
+    } else if (elm.status == 1) {
+      return <p className="text-success">Accepter</p>;
+    } else {
+      return <p className="text-danger">Refusé</p>;
+    }
+  };
   return (
     <div class="container">
       <div class="row">
@@ -105,9 +113,7 @@ const Userprofile = () => {
                     >
                       Refuser
                     </button> */}
-                  {
-                    // displayBtns(elm)
-                  }
+                  {displayBtns(elm)}
                 </td>
               </tr>
             );

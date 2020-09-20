@@ -1,10 +1,11 @@
 import React, { Fragment, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 //import { addANewUser } from "../actions/users";
 import { addemande } from "../actions/demande";
 const AddDemandeUser = () => {
   const [name, setName] = useState("");
+  const history = useHistory();
 
   const [comment, setComment] = useState("");
   const [salarier, setSalarier] = useState(localStorage.getItem("id"));
@@ -60,9 +61,7 @@ const AddDemandeUser = () => {
               }}
             />
           </div>
-          <div className="form-group">
-          
-          </div>
+          <div className="form-group"></div>
 
           <div className="form-group">
             <h4>From Date</h4>
@@ -113,13 +112,19 @@ const AddDemandeUser = () => {
               };
               console.log("hello");
               dispatch(addemande(sendData));
+              history.goBack();
             }}
           >
             Save
           </button>
-          <a className="btn btn-light my-1" href="dashboard.html">
+          <button
+            className="btn btn-light my-1"
+            onClick={() => {
+              history.goBack();
+            }}
+          >
             Go Back
-          </a>
+          </button>
         </form>
       </section>
     </Fragment>
