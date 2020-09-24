@@ -24,60 +24,7 @@ const UserList = () => {
     <div>
       <link rel="stylesheet" href="css/style.css" />
       <title>Welcome To </title>
-      {/* <nav className="navbar bg-dark">
-        <h1>
-          <a href="index.html">
-            <i className="fas fa-code" /> DevConnector
-          </a>
-        </h1>
-        <ul>
-          <li>
-            <Link to="addemande">Add Demande</Link>
-          </li>
-          <li>
-            <Link to="/admin">home</Link>
-          </li>
-          <li>
-            |
-            <a href="dashboard.html" title="Dashboard">
-              <i className="fas fa-user" />
-              <span className="hide-sm">Dashboard</span>
-            </a>
-          </li>
-          <div>
-          <div class="hidden md:block"></div>
-        </div>
-        <div >
-          {state.authReducer.auth ? (
-            <div>
-              <button  className="btn btn-primary"
-                 onClick={()=>{
-                   dispatcher(logoutUser()); 
-                   history.replace('/'); 
-                 }}
-               
-              >
-                Logout
-              </button>
-            </div>
-          ) : (
-            <div>
-              {" "}
-              <Link
-                to="/login"
-               
-              >
-               
-              </Link>
-              
-            </div>
-            )}
-            </div>
-            
-        </ul>
-        
-      </nav> */}
-      
+
       <section className="container">
         <h1 className="large text-primary">Dashboard</h1>
         <p className="lead">
@@ -112,7 +59,7 @@ const UserList = () => {
                   <td className="hide-sm">{elm.firstName}</td>
                   <td className="hide-sm">{elm.email}</td>
                   <td className="hide-sm">{elm.phone}</td>
-                  
+
                   <td className="hide-sm">
                     {elm.role != undefined ? elm.role.role : "undefined"}
                   </td>

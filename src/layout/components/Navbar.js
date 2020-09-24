@@ -1,10 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 //import Login from '../layout/Login';
 const Navbar = () => {
   const [auth, setAuth] = useState(false);
   const authState = useSelector((state) => state.authReducer);
+  const history = useHistory();
   useEffect(() => {
     setAuth(authState.auth);
   }, []);
@@ -24,7 +25,6 @@ const Navbar = () => {
           </a>
         </h1>
         <ul>
-        
           {authState.auth ? (
             <Fragment>
               <li>
@@ -35,7 +35,14 @@ const Navbar = () => {
                 </a> */}
               </li>
               <li>
-                <Link  title="Logout">
+                <Link
+                  title="Logout"
+                  onClick={() => {
+                   
+                    localStorage.clear();
+                    history.replace("/");
+                  }}
+                >
                   <i className="fas fa-sign-out-alt" />
                   <span className="hide-sm">Logout</span>
                 </Link>
