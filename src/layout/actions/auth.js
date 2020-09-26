@@ -47,7 +47,7 @@ export const authUser = (email, password, history) => async (dispatch) => {
       Swal.fire({
         //est une message flash cad controlle de siasiir
         title: "Error!",
-        text: "Email ou mot de passe incorret",
+        text: data.message,
         icon: "error",
         confirmButtonText: "Ok",
       });

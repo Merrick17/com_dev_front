@@ -1,5 +1,5 @@
 import axios from "axios";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 export const getAllUsers = () => async (dispatch) => {
   let result = await axios.get("http://localhost:3000/users/allusers");
   let data = result.data.users;
@@ -11,8 +11,7 @@ export const getAllUsers = () => async (dispatch) => {
 
 export const getUser = (id) => async (dispatch) => {
   let token = localStorage.getItem("token");
-  let result = await axios.get(`http://localhost:3000/users/${id}`,
-  {
+  let result = await axios.get(`http://localhost:3000/users/${id}`, {
     headers: {
       "x-access-token": token,
     },
@@ -33,16 +32,8 @@ export const addANewUser = (userData) => async (dispatch) => {
   let result = await axios.post("http://localhost:3000/users/add", userData, {
     headers: {
       "x-access-token": token,
-      
     },
-
-
-
-
-    
-  } );
-  
- 
+  });
 
   getAllUsers();
 };
@@ -57,6 +48,7 @@ export const UpdateUser = (userData, id) => async (dispatch) => {
   let result = await axios.put(`http://localhost:3000/users/${id}`, userData, {
     headers: {
       "x-access-token": token,
+      "Content-Type": "multipart/form-data",
     },
   });
   console.log(result);
@@ -66,14 +58,11 @@ export const UpdateUser = (userData, id) => async (dispatch) => {
 
 export const deleteUser = (id) => async (dispatch) => {
   let token = localStorage.getItem("token");
-  let result = await axios.delete(
-    `http://localhost:3000/users/${id}`,
-    {
-      headers: {
-        "x-access-token": token,
-      },
-    }
-  );
+  let result = await axios.delete(`http://localhost:3000/users/${id}`, {
+    headers: {
+      "x-access-token": token,
+    },
+  });
   console.log(result);
 
   getAllUsers();

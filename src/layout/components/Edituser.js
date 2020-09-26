@@ -9,8 +9,9 @@ function Edituser(props) {
   const [role, setRole] = useState("");
   const [phone, setPhone] = useState("");
   const [userId, setUserId] = useState("");
-  const state = useSelector((state) => state.rolesReducer);//pour selectionner tous les roles
-  let userList = useSelector((state) => state.userReducer);//pour selectioner un utilisateur unique 
+  const [file, setFile] = useState(undefined);
+  const state = useSelector((state) => state.rolesReducer); //pour selectionner tous les roles
+  let userList = useSelector((state) => state.userReducer); //pour selectioner un utilisateur unique
   const dispatch = useDispatch();
   useEffect(() => {
     console.log("User List", userList);
@@ -88,6 +89,18 @@ function Edituser(props) {
               }}
             />
           </div>
+          <div className="form-group">
+            <input
+              //type="hidden"
+              type="file"
+              placeholder="Avatar"
+              name="avatar"
+              required
+              onChange={(event) => {
+                setFile(event.target.files[0]);
+              }}
+            />
+          </div>
           <div>
             <select
               disabled
@@ -117,22 +130,22 @@ function Edituser(props) {
             className="btn btn-primary my-1"
             onClick={(event) => {
               event.preventDefault();
-              let sendData = {
-                name: name,
-                firstName: firstName,
-                email: email,
-                password: password,
-                phone: phone,
-              };
-              console.log("hello",userId);
-              dispatch(UpdateUser(sendData, userId));
+              let formData = new FormData();
+
+              formData.append("imageUrl", file);
+              formData.append("name", name);
+              formData.append("email", email);
+              formData.append("phone", phone);
+              formData.append("firstName", firstName);
+
+              dispatch(UpdateUser(formData, userId));
             }}
           >
             Save
           </button>
-          <a className="btn btn-light my-1" href="dashboard.html">
+          <button className="btn btn-light my-1" onClick={() => {}}>
             Go Back
-          </a>
+          </button>
         </form>
       </section>
     </Fragment>

@@ -1,16 +1,18 @@
 import React, { useState, Fragment } from "react";
-
+import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authUser } from "../actions/auth";
 const Login = () => {
+  const { register, handleSubmit, watch, errors } = useForm();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const history = useHistory();
   const dispatcher = useDispatch();
-  const Handlelogin = (event) => {
-    event.preventDefault();
+  const Handlelogin = () => {
+    //event.preventDefault();
     console.log("my email", email);
     console.log("my password", password);
     dispatcher(authUser(email, password, history));
@@ -23,7 +25,7 @@ const Login = () => {
         <p className="lead">
           <i className="fas fa-user"></i> Sign into Your Account
         </p>
-        <form className="form" onSubmit={Handlelogin}>
+        <form className="form" onSubmit={handleSubmit(Handlelogin)}>
           <div className="form-group">
             <input
               type="email"
@@ -31,25 +33,37 @@ const Login = () => {
               name="email"
               required
               value={email}
+              className="form-control"
               onChange={(event) => {
                 //changer l'evenemt input
                 setEmail(event.target.value);
-                console.log("The name is ", email);
               }}
+              ref={register({
+                required: true,
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Adresse Email invalide",
+                },
+              })}
             />
           </div>
+            {errors.email && <span className="text-danger">{errors.email.message}</span>}
           <div className="form-group">
             <input
-              type="text"
+              type="password"
               placeholder="Password"
               name="password"
               value={password}
+              className="form-control"
               onChange={(event) => {
                 //changer l'evenemt input
                 setPassword(event.target.value);
-                console.log("The password is ", password);
               }}
+              ref={register({ required: true })}
             />
+            {errors.password && (
+              <span className="text-danger">Mot de passe obligatoire</span>
+            )}
           </div>
           {/* <button
             type="button"
@@ -57,11 +71,9 @@ const Login = () => {
             value="Login"
             onClick={Handlelogin}
           /> */}
-          <button type="submit" className="btn btn-primary"
-          >
+          <button type="submit" className="btn btn-primary">
             {" "}
             Login
-            
           </button>
         </form>
         <p className="my-1">

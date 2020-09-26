@@ -1,10 +1,12 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { clearDemande } from "../actions/demande";
 //import Login from '../layout/Login';
 const Navbar = () => {
   const [auth, setAuth] = useState(false);
   const authState = useSelector((state) => state.authReducer);
+  const dispatch = useDispatch();
   const history = useHistory();
   useEffect(() => {
     setAuth(authState.auth);
@@ -38,8 +40,8 @@ const Navbar = () => {
                 <Link
                   title="Logout"
                   onClick={() => {
-                   
                     localStorage.clear();
+                    dispatch(clearDemande());
                     history.replace("/");
                   }}
                 >

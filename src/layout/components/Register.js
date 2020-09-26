@@ -9,6 +9,7 @@ const Register = () => {
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState("");
   const state = useSelector((state) => state.rolesReducer);
+  
   const registerUser = async () => {
     try {
       let response = await axios.post("http://localhost:3000/users/add", {
@@ -43,7 +44,6 @@ const Register = () => {
               onChange={(event) => {
                 //changer l'evenemt input
                 setName(event.target.value);
-                console.log("The name is ", name);
               }}
             />
           </div>
@@ -57,7 +57,6 @@ const Register = () => {
               onChange={(event) => {
                 //changer l'evenemt input
                 setFirstName(event.target.value);
-                console.log("The firstName is ", firstName);
               }}
             />
             <small className="form-text">
@@ -75,7 +74,6 @@ const Register = () => {
               onChange={(event) => {
                 //changer l'evenemt input
                 setEmail(event.target.value);
-                console.log("The name is ", email);
               }}
             />
           </div>
@@ -114,7 +112,6 @@ const Register = () => {
               onChange={(event) => {
                 //changer l'evenemt input
                 setPassword(event.target.value);
-                console.log("The password is ", password);
               }}
             />
           </div>
@@ -129,7 +126,6 @@ const Register = () => {
               onChange={(event) => {
                 //changer l'evenemt input
                 setPhone(event.target.value);
-                console.log("The phone is ", phone);
               }}
             />
           </div>

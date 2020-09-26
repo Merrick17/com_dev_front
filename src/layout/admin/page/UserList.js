@@ -3,8 +3,7 @@ import axios from "axios";
 import { useHistory, useRouteMatch, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUsers, deleteUser } from "../../actions/users";
-import { getAllRoles } from "../../actions/roles";
-import { logoutUser } from "../../actions/auth";
+import Swal from "sweetalert2";
 const UserList = () => {
   const [userList, setUsersList] = useState([]);
   const history = useHistory(); // instance au navigation d'utilisateur
@@ -77,8 +76,27 @@ const UserList = () => {
                     <button
                       className="btn btn-danger"
                       onClick={() => {
-                        dispatcher(deleteUser(elm._id));
-                        dispatcher(getAllUsers());
+                        Swal.fire({
+                          title: "Etes Vous sure ?",
+                          text:
+                            "Veuillez vous confirmer si vous voulez supprimer !",
+                          icon: "warning",
+                          showCancelButton: true,
+                          confirmButtonColor: "#3085d6",
+                          cancelButtonColor: "#d33",
+                          confirmButtonText: "Oui!",
+                          cancelButtonText: "Annuler",
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            dispatcher(deleteUser(elm._id));
+                            dispatcher(getAllUsers());
+                            Swal.fire(
+                              "Supprimer!",
+                              "Utilisteur est supprimé avec succes.",
+                              "success"
+                            );
+                          }
+                        });
                       }}
                     >
                       Delete

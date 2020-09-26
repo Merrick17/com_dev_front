@@ -72,6 +72,7 @@ export const switchSateDemande = (iddemande, etat) => async (dispatch) => {
 };
 
 export const getAllDemandeBySalarier = () => async (dispatch) => {
+  
   let id = localStorage.getItem("id");
   let token = localStorage.getItem("token");
 
@@ -86,3 +87,10 @@ export const getAllDemandeBySalarier = () => async (dispatch) => {
     data: result.data.demandes,
   });
 };
+
+export const clearDemande = ()=>{
+  return {
+    type: "CLEAR_DEMANDE",
+    data: [],
+  }
+}

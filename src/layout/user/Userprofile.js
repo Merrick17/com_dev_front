@@ -38,11 +38,19 @@ const Userprofile = () => {
     <div class="container">
       <div class="row">
         <div class="col-md-6 img">
-          <img
-            src={"https://" + state.authReducer.img}
-            alt=""
-            class="img-rounded"
-          />
+          {state.authReducer.img!=undefined && state.authReducer.img.includes("gravatar") ? (
+            <img
+              src={"https://" + state.authReducer.img}
+              alt=""
+              class="img-rounded"
+            />
+          ) : (
+            <img
+            src={`http://localhost:3000/${state.authReducer.img}`}
+              alt=""
+              class="img-rounded"
+            />
+          )}
         </div>
         <div class="col-md-6 details">
           <blockquote>

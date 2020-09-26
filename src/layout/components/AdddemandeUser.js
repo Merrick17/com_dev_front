@@ -1,9 +1,22 @@
 import React, { Fragment, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
+import Swal from "sweetalert2";
+import moment from 'moment'
 //import { addANewUser } from "../actions/users";
 import { addemande } from "../actions/demande";
 const AddDemandeUser = () => {
+  const formatDate = ( format) => {
+    const date = new Date(Date.now()); 
+    const map = {
+      mm: date.getMonth() + 1,
+      dd: date.getDate(),
+      yy: date.getFullYear().toString().slice(-2),
+      yyyy: date.getFullYear(),
+    };
+
+    return format.replace(/mm|dd|yy|yyy/gi, (matched) => map[matched]);
+  };
   const [name, setName] = useState("");
   const history = useHistory();
 
@@ -71,6 +84,18 @@ const AddDemandeUser = () => {
               value={date_depart}
               onChange={(event) => {
                 setDate_depart(event.target.value);
+                var date = moment(date_depart)
+                var now = moment();
+                
+                if (now > date) {
+                  Swal.fire({
+                    title: "Erreur",
+                    icon: "error",
+                    text: "Vous avez saisie une date expiré ! ",
+
+                    showCloseButton: true,
+                  });
+                } 
               }}
             />
           </div>
@@ -83,6 +108,17 @@ const AddDemandeUser = () => {
               value={date_retour}
               onChange={(event) => {
                 setDate_retour(event.target.value);
+                var date = moment(date_depart)
+                var retour = moment(date_retour);
+                if (date > retour) {
+                  Swal.fire({
+                    title: "Erreur",
+                    icon: "error",
+                    text: "Vous avez saisie une date de retour Invalide ! ",
+
+                    showCloseButton: true,
+                  });
+                } 
               }}
             />
           </div>

@@ -14,6 +14,8 @@ const demandeReducer = (initialState = initialuserList, action) => {
       return [...initialState, action.data];
     case "GET_DEMANDEBY_SALARIER":
       return action.data;
+    case "CLEAR_DEMANDE" : 
+    return [] 
   }
 };
 
