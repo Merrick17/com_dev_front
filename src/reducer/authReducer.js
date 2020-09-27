@@ -6,7 +6,8 @@ const initUserState = {
   role: "",
   phone: 0,
   auth: false,
-  img:""
+  img:"",
+  roleName:""
 };
 
 const authReducer = (initialState = initUserState, action) => {

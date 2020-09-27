@@ -46,14 +46,14 @@ function Adduser() {
                 setfirstName(event.target.value);
               }}
               ref={register({
-                required: "Required",
+               
                 pattern: {
-                  value:"/^[a-zA-Z]+ [a-zA-Z]+$/", 
+                  value:/^[A-Za-z]+$/i, 
                   message: "Prénom  Invalide ",
                 },
               })}
             />
-            {errors.firstname && <span>{errors.firstname.message}</span>}
+            {errors.firstname && <span className="text-danger">{errors.firstname.message}</span>}
           </div>
           <div className="form-group">
             <input
@@ -67,14 +67,14 @@ function Adduser() {
                 setName(event.target.value);
               }}
               ref={register({
-                required: "Required",
+               
                 pattern: {
-                  value:"/^[a-zA-Z]+ [a-zA-Z]+$/",
+                  value: /^[A-Za-z]+$/i,
                   message: "Nom  obligatoire ",
                 },
               })}
             />
-            {errors.name && <span>{errors.name.message}</span>}
+            {errors.name && <span className="text-danger">{errors.name.message}</span>}
           </div>
           <div className="form-group">
             <input
@@ -87,7 +87,7 @@ function Adduser() {
                 setEmail(event.target.value);
               }}
               ref={register({
-                required: "Required",
+                
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                   message: "Adresse email invalide",
@@ -128,14 +128,16 @@ function Adduser() {
                 console.log(phone); 
               }}
               ref={register({
-                required: "Required",
+                minLength: 8,
+            maxLength: 8,
+                
                 pattern: {
-                  message: "Num Tél obligatoire ",
-                  value:"/^\d{8}$/"
+                 
+                  value:/^\d{8}$/
                 },
               })}
             />
-            {errors.phone && <span>{errors.phone.message}</span>}
+            {errors.phone && <span className="text-danger">Num Tél Max 8</span>}
           </div>
           <div>
             <select

@@ -7,7 +7,7 @@ import { getAllRoles } from "../actions/roles";
 import { logoutUser } from "../actions/auth";
 import Moment from "react-moment";
 import "moment-timezone";
-import "./styles.css";
+//import "./styles.css";
 import { getAllDemandeBySalarier } from "../actions/demande";
 const Userprofile = () => {
   const [userList, setUsersList] = useState([]);
@@ -36,38 +36,79 @@ const Userprofile = () => {
   };
   return (
     <div class="container">
-      <div class="row">
-        <div class="col-md-6 img">
-          {state.authReducer.img!=undefined && state.authReducer.img.includes("gravatar") ? (
-            <img
-              src={"https://" + state.authReducer.img}
-              alt=""
-              class="img-rounded"
-            />
-          ) : (
-            <img
-            src={`http://localhost:3000/${state.authReducer.img}`}
-              alt=""
-              class="img-rounded"
-            />
-          )}
-        </div>
-        <div class="col-md-6 details">
-          <blockquote>
-            <h5>
-              {state.authReducer.firstName + " " + state.authReducer.name}
-            </h5>
-            <small>
-              <cite title="Source Title">
-                {state.authReducer.email}
-                <i class="icon-map-marker"></i>
-              </cite>
-            </small>
-          </blockquote>
-          <br />
-          <Link className="btn btn-primary" to="/adddemandesalarier">
-            Ajouter demande{" "}
-          </Link>
+      <div className="profiles">
+        <div className="profile bg-light">
+          <div className="round-img">
+            {state.authReducer.img != undefined &&
+            state.authReducer.img.includes("gravatar") ? (
+              <img
+                src={"https://" + state.authReducer.img}
+                alt=""
+                class="img-rounded"
+              />
+            ) : (
+              <img
+                src={`http://localhost:3000/${state.authReducer.img}`}
+                alt=""
+                class="img-rounded"
+              />
+            )}
+          </div>
+          <div class="col-md-6 details">
+            <blockquote>
+              <h5>
+                {state.authReducer.firstName + " " + state.authReducer.name}
+              </h5>
+              <small>
+                <cite title="Source Title">
+                  {state.authReducer.email}
+                  <i class="icon-map-marker"></i>
+                </cite>
+              </small>
+              <br></br>
+              <small>
+                <cite title="Source Title">
+                  soldeConge: {state.authReducer.soldeConge}
+                  <i class="icon-map-marker"></i>
+                </cite>
+              </small>
+              <br></br>
+              <small>
+                <cite title="Source Title">
+                  Phone: {state.authReducer.phone}
+                  <i class="icon-map-marker"></i>
+                </cite>
+              </small>
+              <br/>
+              <small>
+                <cite title="Source Title">
+                  Role: {state.authReducer.roleName}
+                  <i class="icon-map-marker"></i>
+                </cite>
+              </small>
+            </blockquote>
+            <br />
+            <div className="row">
+              <div className="col-md-6" >
+              <Link className="btn btn-primary" to="/adddemandesalarier">
+              Ajouter demande
+            </Link>
+              </div>
+              <div className="col-md-6"></div>
+              <div className="col-md-6">
+              <button
+              className="btn btn-primary"
+              onClick={() => {
+                history.push(`/editprofile`);
+              }}
+            >
+              Edit
+            </button>
+              </div>
+            </div>
+           
+            
+          </div>
         </div>
       </div>
       <table className="table">

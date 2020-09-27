@@ -22,7 +22,10 @@ export const authUser = (email, password, history) => async (dispatch) => {
         firstName: data.user.firstName,
         name: data.user.name,
         role: data.user.role._id,
+        roleName:data.user.role.role,
         img: data.user.imageUrl,
+        soldeConge: data.user.soldeConge,
+        phone:data.user.phone,
 
         auth: true,
       };

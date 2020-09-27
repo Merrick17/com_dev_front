@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useRouteMatch, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllDemande, switchSateDemande } from "../../layout/actions/demande";
+import {
+  getAllDemande,
+  getAllDemandeByPage,
+  switchSateDemande,
+} from "../../layout/actions/demande";
 import Moment from "react-moment";
 import "moment-timezone";
 function ListDemande() {
@@ -10,15 +14,23 @@ function ListDemande() {
   const match = useRouteMatch(); // permet d'extraire le lien courant
   const dispatcher = useDispatch(); // permet d'exectuer les actions de reducer pour modifier l'etat
   const state = useSelector((state) => state); // permet d'acces à tous l'etat( données ) depuis n'importe quel emplacement
+  const [pages, setPages] = useState([]);
+  const [selectedPage, setSelectedPage] = useState(1);
   useEffect(() => {
     // useEffect permet d'execctuer une tache lors de l'initialisation de l'interface
     dispatcher(getAllDemande());
     console.log(state.demandeReducer); //appel
     console.log("All State", state);
-
+    let counter = 1;
+    let temp = [];
+    for (var i = 0; i < state.demandePaginationReducer.pages; i++) {
+      temp.push(counter);
+      counter++;
+    }
+    setPages(temp);
     //setUsersList(state.userReducer);
   }, []);
- /* const verifStatus = (id) => {
+  /* const verifStatus = (id) => {
     if (id == 0) {
       return "En Attente";
     } else if (id == 1) {
@@ -146,43 +158,64 @@ function ListDemande() {
                     <Moment date={elm.date_retour} format="DD/MM/YYYY" />
                   </td>
                   <td className="hide-sm">{elm.nbrJrs}</td>
-                  {/* <td className="hide-sm">{verifStatus(elm.status)}</td> */}
-                  <td>
-                    {/* <button
-                      className="btn btn-primary"
-                      onClick={() => {
-                        dispatcher(
-                          switchSateDemande(elm._id, {
-                            newStatus: 1,
-                          })
-                        );
-                      }}
-                    >
-                      Accepter
-                    </button>
-                    <br></br>
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => {
-                        dispatcher(
-                          switchSateDemande(elm._id, {
-                            newStatus: 2,
-                          })
-                        );
-                      }}
-                    >
-                      Refuser
-                    </button> */}
-                    {
-                      displayBtns(elm)
-                    }
-                  </td>
+
+                  <td>{displayBtns(elm)}</td>
                 </tr>
               );
             })}
           </tbody>
         </table>
       </section>
+      <div className="row">
+        <div className="col-md-8">
+          {state.demandePaginationReducer.pages > 1 ? (
+            <ul class="pagination">
+              <li class="page-item">
+                {state.demandePaginationReducer.hasPreviousPage ? (
+                  <button
+                    class="page-link"
+                    onClick={() => {
+                      setSelectedPage(selectedPage - 1);
+                      dispatcher(getAllDemandeByPage(selectedPage - 1));
+                    }}
+                  >
+                    Previous
+                  </button>
+                ) : (
+                  <div></div>
+                )}
+              </li>
+              {pages.map((elm) => (
+                <li class="page-item">
+                  <button
+                    class="page-link"
+                    onClick={() => {
+                      setSelectedPage(elm);
+                      dispatcher(getAllDemandeByPage(elm));
+                    }}
+                  >
+                    {elm}
+                  </button>
+                </li>
+              ))}
+
+              <li class="page-item">
+                <button
+                  class="page-link"
+                  onClick={() => {
+                    setSelectedPage(selectedPage + 1);
+                    dispatcher(getAllDemandeByPage(selectedPage + 1));
+                  }}
+                >
+                  Next
+                </button>
+              </li>
+            </ul>
+          ) : (
+            <div></div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

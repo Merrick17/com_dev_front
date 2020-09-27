@@ -1,8 +1,45 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 export const getAllUsers = () => async (dispatch) => {
-  let result = await axios.get("http://localhost:3000/users/allusers");
+  let result = await axios.get(
+    "http://localhost:3000/users/allusers?pagination=5"
+  );
   let data = result.data.users;
+  dispatch({
+    type: "GET_PAGINATION_USERS",
+    data: result.data.paginationData,
+  });
+  return dispatch({
+    type: "GET_ALL_USERS",
+    data: data,
+  });
+};
+export const searchUsers = (name) => async (dispatch) => {
+  let result = await axios.post(
+    "http://localhost:3000/users/search",
+    {
+      name: name,
+    }
+  );
+  let data = result.data.users;
+  dispatch({
+    type: "GET_PAGINATION_USERS",
+    data: result.data.paginationData,
+  });
+  return dispatch({
+    type: "GET_ALL_USERS",
+    data: data,
+  });
+};
+export const getAllUsersNextPage = (nextPage) => async (dispatch) => {
+  let result = await axios.get(
+    "http://localhost:3000/users/allusers?pagination=5&page=" + nextPage
+  );
+  let data = result.data.users;
+  dispatch({
+    type: "GET_PAGINATION_USERS",
+    data: result.data.paginationData,
+  });
   return dispatch({
     type: "GET_ALL_USERS",
     data: data,

@@ -9,6 +9,7 @@ import PrivateRoute from "./layout/components/PrivateRoute";
 import "./App.css";
 import edituser from "../src/layout/components/Edituser";
 import { useDispatch } from "react-redux";
+import Useredit from "./layout/components/useredit";
 import UserList from "../src/layout/admin/page/UserList";
 import adduser from "./layout/components/Adduser";
 //import addemande from "./layout/components/Addemande";
@@ -40,6 +41,7 @@ function App() {
             <Route path="/adduser" component={adduser} />
             <Route path="/edituser/:id" component={edituser} />
             <Route path="/addemande" component={Addemande} />
+            <Route path="/editprofile" component={Useredit} />
             <Route path="/adddemandesalarier" component={AddDemandeUser} />
             <Route path="/listDemande" component={ListDemande} />
             <Route path="/userprofile" component={Userprofile} />

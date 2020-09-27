@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authUser } from "../actions/auth";
+import { getAllUsers } from "../actions/users";
 const Login = () => {
   const { register, handleSubmit, watch, errors } = useForm();
 
@@ -16,6 +17,7 @@ const Login = () => {
     console.log("my email", email);
     console.log("my password", password);
     dispatcher(authUser(email, password, history));
+    dispatcher(getAllUsers());
   };
   return (
     <Fragment>
@@ -47,7 +49,9 @@ const Login = () => {
               })}
             />
           </div>
-            {errors.email && <span className="text-danger">{errors.email.message}</span>}
+          {errors.email && (
+            <span className="text-danger">{errors.email.message}</span>
+          )}
           <div className="form-group">
             <input
               type="password"

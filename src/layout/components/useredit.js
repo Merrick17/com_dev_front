@@ -1,9 +1,23 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { UpdateUser } from "../actions/users";
-import { Link, useHistory } from "react-router-dom";
-import { useForm } from "react-hook-form";
-function Edituser(props) {
+const Useredit = (props) => {
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state.rolesReducer); //pour selectionner tous les roles
+  const selectedUser = useSelector((state) => state.authReducer); //pour selectioner un utilisateur unique
+  //console.log(userList); 
+  useEffect(() => {
+    //console.log("User List", userList);
+    let id = localStorage.getItem("id");
+     //let selectedUser = userList.find((state) => state.authReducer.data == id);
+    setName(selectedUser.name);
+    setfirstName(selectedUser.firstName);
+    setEmail(selectedUser.email);
+    setPhone(selectedUser.phone);
+    setPassword(selectedUser.password);
+    // console.log("userID ", id);
+     setUserId(id);
+  }, []);
   const [name, setName] = useState("");
   const [firstName, setfirstName] = useState("");
   const [email, setEmail] = useState("");
@@ -12,106 +26,54 @@ function Edituser(props) {
   const [phone, setPhone] = useState("");
   const [userId, setUserId] = useState("");
   const [file, setFile] = useState(undefined);
-  const state = useSelector((state) => state.rolesReducer); //pour selectionner tous les roles
-  let userList = useSelector((state) => state.userReducer); //pour selectioner un utilisateur unique
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const { handleSubmit, register, errors } = useForm();
-  useEffect(() => {
-    console.log("User List", userList);
-    let id = props.match.params.id;
-    let selectedUser = userList.find((elm) => elm._id == id);
-    setName(selectedUser.name);
-    setfirstName(selectedUser.firstName);
-    setEmail(selectedUser.email);
-    setPhone(selectedUser.phone);
-    setPassword(selectedUser.password);
-    console.log("userID ", id);
-    setUserId(id);
-  }, []);
-  const onSubmit = () => {
-    console.log(errors.lastname);
-    let formData = new FormData();
-
-    formData.append("imageUrl", file);
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("phone", phone);
-    formData.append("firstName", firstName);
-    dispatch(UpdateUser(formData, userId));
-  };
 
   return (
     <Fragment>
       <section className="container">
         <h1 className="large text-primary">Update User</h1>
 
-        <form className="form" onSubmit={handleSubmit(onSubmit)}>
+        <form className="form">
           <div className="form-group">
             <input
               type="text"
               placeholder="FirstName"
               name="firstname"
+              required
               value={firstName}
               onChange={(event) => {
                 setfirstName(event.target.value);
               }}
-              ref={register({
-                pattern: {
-                  value: /^[A-Za-z]+$/i,
-                  message: "Prénom  Invalide ",
-                },
-              })}
             />
-            {errors.firstname && (
-              <span className="text-danger">{errors.firstname.message}</span>
-            )}
           </div>
           <div className="form-group">
             <input
               type="text"
               placeholder="Name"
-              name="lastname"
+              name="name"
+              required
               value={name}
               onChange={(event) => {
                 setName(event.target.value);
               }}
-              ref={register({
-                pattern: {
-                  value: /^[A-Za-z]+$/i,
-                  message: "Nom Invalide ",
-                },
-              })}
             />
-            {errors.lastname && (
-              <span className="text-danger">{errors.lastname.message}</span>
-            )}
           </div>
           <div className="form-group">
             <input
               type="text"
               placeholder="Email"
               name="email"
-              required
               value={email}
               onChange={(event) => {
                 setEmail(event.target.value);
               }}
-              ref={register({
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Adresse email invalide",
-                },
-              })}
             />
-            {errors.email && errors.email.message}
           </div>
           <div className="form-group">
             <input
               //type="hidden"
               type="text"
               placeholder="Password"
-              name="password"
+              name="name"
               disabled
             />
           </div>
@@ -127,16 +89,7 @@ function Edituser(props) {
               onChange={(event) => {
                 setPhone(event.target.value);
               }}
-              ref={register({
-                minLength: 8,
-                maxLength: 8,
-
-                pattern: {
-                  value: /^\d{8}$/,
-                },
-              })}
             />
-            {errors.phone && <span className="text-danger">Num Tél Max 8</span>}
           </div>
           <div className="form-group">
             <input
@@ -175,22 +128,30 @@ function Edituser(props) {
               ))}
             </select>
           </div>
-          <button className="btn btn-primary my-1" type="submit">
-            Save
-          </button>
           <button
-            className="btn btn-light my-1"
+            className="btn btn-primary my-1"
             onClick={(event) => {
               event.preventDefault();
-              history.goBack();
+              let formData = new FormData();
+
+              formData.append("imageUrl", file);
+              formData.append("name", name);
+              formData.append("email", email);
+              formData.append("phone", phone);
+              formData.append("firstName", firstName);
+
+              dispatch(UpdateUser(formData, userId));
             }}
           >
+            Save
+          </button>
+          <button className="btn btn-light my-1" onClick={() => {}}>
             Go Back
           </button>
         </form>
       </section>
     </Fragment>
   );
-}
+};
 
-export default Edituser;
+export default Useredit;

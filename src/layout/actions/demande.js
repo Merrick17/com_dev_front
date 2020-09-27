@@ -11,13 +11,27 @@ export const getAllUsers = () => async (dispatch) => {
 };
 
 export const getAllDemande = () => async (dispatch) => {
-  let result = await axios.get("http://localhost:3000/demande/getdemande");
+  let result = await axios.get(
+    "http://localhost:3000/demande/getdemande?pagination=5"
+  );
 
   return dispatch({
     type: "GET_ALL_DEMANDE",
-    data: result.data.message,
+    data: result.data.demandes,
   });
-  authUser();
+};
+export const getAllDemandeByPage = (page) => async (dispatch) => {
+  let result = await axios.get(
+    "http://localhost:3000/demande/getdemande?pagination=5&page=" + page
+  );
+  dispatch({
+    type: "GET_PAGINATION_DEMANDES",
+    data: result.data.paginationData,
+  });
+  return dispatch({
+    type: "GET_ALL_DEMANDE",
+    data: result.data.demandes,
+  });
 };
 export const getDemandebysalarier = (id) => async (dispatch) => {
   let token = localStorage.getItem("token");
@@ -72,7 +86,6 @@ export const switchSateDemande = (iddemande, etat) => async (dispatch) => {
 };
 
 export const getAllDemandeBySalarier = () => async (dispatch) => {
-  
   let id = localStorage.getItem("id");
   let token = localStorage.getItem("token");
 
@@ -81,16 +94,16 @@ export const getAllDemandeBySalarier = () => async (dispatch) => {
       "x-access-token": token,
     },
   });
-  console.log("my result",result)
+  console.log("my result", result);
   return dispatch({
     type: "GET_DEMANDEBY_SALARIER",
     data: result.data.demandes,
   });
 };
 
-export const clearDemande = ()=>{
+export const clearDemande = () => {
   return {
     type: "CLEAR_DEMANDE",
     data: [],
-  }
-}
+  };
+};
